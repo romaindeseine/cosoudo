@@ -1,5 +1,6 @@
 flask
 flask-bcrypt
 flask-login
+flask-moment
 flask-sqlalchemy
 python-dotenv
