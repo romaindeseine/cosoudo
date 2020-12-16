@@ -1,0 +1,2 @@
+FLASK_APP=cosoudo.py
+FLASK_ENV=development

@@ -1,3 +1,6 @@
+# VS Code settings
+.vscode
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
@@ -64,6 +67,9 @@ db.sqlite3-journal
 # Flask stuff:
 instance/
 .webassets-cache
+
+# Sqlite stuff:
+*.sqlite
 
 # Scrapy stuff:
 .scrapy
