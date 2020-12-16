@@ -1,7 +1,13 @@
 from flask_wtf import FlaskForm
 
-from wtforms import DecimalField, StringField, SubmitField
+from wtforms import DateField, DecimalField, StringField, SubmitField
 from wtforms.validators import DataRequired
+
+
+class SoutenanceForm(FlaskForm):
+    doctorant = StringField('Nom et prénom du doctorant', validators=[DataRequired()])
+    date = DateField('Date de la soutenance', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
 
 class DonationForm(FlaskForm):

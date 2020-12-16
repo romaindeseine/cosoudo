@@ -2,7 +2,18 @@
 
 {% block content %}
   <div class="col-8">
-    <h3 class="mb-3">Qu'est ce que la Cosoudo ?</h3>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        {% for category, message in messages %}
+          <div class="alert alert-{{ category }} alert-dismissible fade show">
+            <strong>{{ message }}</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {% endfor %}
+      {% endif %}
+    {% endwith %}
+
+    <h3 class="mb-3">Qu'est ce que la CoSouDo ?</h3>
     <p>
       Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam varius enim et arcu euismod egestas. Quisque commodo ligula a nisi luctus, at lobortis elit accumsan. Ut rhoncus lorem turpis, sed pretium odio pulvinar vitae. Phasellus magna lectus, rutrum et metus a, aliquam ullamcorper nibh. Nam rhoncus faucibus posuere. Nam sed quam varius, bibendum felis sed, semper urna. Etiam fermentum tellus orci, at pharetra lorem viverra commodo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
     </p>
@@ -24,7 +35,10 @@
     <h3 class="mb-3">Prochaines soutenances</h3>
     <div class="list-group">
       {% for soutenance in soutenances %}
-        <a href="{{ url_for('main.donation', id=soutenance) }}" class="list-group-item list-group-item-action">{{ soutenance }}</a>
+        <a href="{{ url_for('main.donation', id=soutenance.id) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+          {{ soutenance.doctorant }}
+          <span class="badge bg-primary rounded-pill">{{ moment(soutenance.date).format('ll') }}</span>
+        </a>
       {% endfor %}
     </div>
   </div>
