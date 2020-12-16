@@ -1,35 +1,31 @@
 {% extends "base.html" %}
 
 {% block content %}
-  <div class="container">
-    <div class="row">
-      <div class="col-8">
-        <h3 class="mb-3">Qu'est ce que la Cosoudo ?</h3>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam varius enim et arcu euismod egestas. Quisque commodo ligula a nisi luctus, at lobortis elit accumsan. Ut rhoncus lorem turpis, sed pretium odio pulvinar vitae. Phasellus magna lectus, rutrum et metus a, aliquam ullamcorper nibh. Nam rhoncus faucibus posuere. Nam sed quam varius, bibendum felis sed, semper urna. Etiam fermentum tellus orci, at pharetra lorem viverra commodo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
-        </p>
-        <p>
-          Pellentesque laoreet justo quis lacus accumsan, in cursus mauris maximus. Praesent consectetur convallis ante, sit amet consectetur dolor gravida non. Nam ullamcorper ante nunc, aliquet viverra nisi lacinia a. Phasellus mollis vel enim ut aliquam. Sed vitae suscipit ante. Vivamus fermentum, enim ac faucibus luctus, elit nunc feugiat sapien, sit amet sollicitudin mi quam lobortis ipsum. Sed ultricies libero sed dolor fringilla, a mattis massa sagittis. Pellentesque molestie bibendum consequat. Curabitur massa dolor, tincidunt ac ipsum nec, varius porttitor lectus. Sed nunc purus, pharetra eu turpis id, mollis tristique dolor.
-        </p>
-        <p>
-          In iaculis dignissim lacinia. Donec eget ante tristique, cursus lorem at, ullamcorper mi. Duis egestas viverra tincidunt. Integer facilisis nec ipsum a egestas. Suspendisse ac dignissim enim, nec placerat risus. In sollicitudin magna sit amet dui tincidunt porttitor. Nullam efficitur at elit id iaculis. Nam malesuada malesuada mauris. Quisque dictum eros nec scelerisque accumsan. Duis ac diam malesuada, dignissim est quis, facilisis erat.
-        </p>
-        <p>
-          Donec non lectus at urna vehicula viverra ac imperdiet ligula. Nam ornare, dolor eget bibendum consectetur, odio odio rhoncus purus, mollis dapibus odio felis sit amet metus. Nam ultricies hendrerit bibendum. Nunc egestas sem at nisl finibus pharetra varius non velit. Nam eget fringilla metus, eget finibus est. Cras non vulputate nisi. In vehicula ultricies magna non tempus.
-        </p>
-        <p>
-          Sed in dui quis ex euismod luctus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean rhoncus odio blandit neque lacinia commodo. Morbi fringilla odio purus, condimentum ullamcorper ligula fermentum nec. Ut a consequat ex, vel ornare elit. Phasellus luctus egestas lorem, id imperdiet eros. Duis diam magna, rhoncus id lacus at, dictum ultrices massa. In maximus aliquet felis, vitae iaculis velit egestas ac. 
-        </p>
-      </div>
+  <div class="col-8">
+    <h3 class="mb-3">Qu'est ce que la Cosoudo ?</h3>
+    <p>
+      Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nullam varius enim et arcu euismod egestas. Quisque commodo ligula a nisi luctus, at lobortis elit accumsan. Ut rhoncus lorem turpis, sed pretium odio pulvinar vitae. Phasellus magna lectus, rutrum et metus a, aliquam ullamcorper nibh. Nam rhoncus faucibus posuere. Nam sed quam varius, bibendum felis sed, semper urna. Etiam fermentum tellus orci, at pharetra lorem viverra commodo. Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas.
+    </p>
+    <p>
+      Pellentesque laoreet justo quis lacus accumsan, in cursus mauris maximus. Praesent consectetur convallis ante, sit amet consectetur dolor gravida non. Nam ullamcorper ante nunc, aliquet viverra nisi lacinia a. Phasellus mollis vel enim ut aliquam. Sed vitae suscipit ante. Vivamus fermentum, enim ac faucibus luctus, elit nunc feugiat sapien, sit amet sollicitudin mi quam lobortis ipsum. Sed ultricies libero sed dolor fringilla, a mattis massa sagittis. Pellentesque molestie bibendum consequat. Curabitur massa dolor, tincidunt ac ipsum nec, varius porttitor lectus. Sed nunc purus, pharetra eu turpis id, mollis tristique dolor.
+    </p>
+    <p>
+      In iaculis dignissim lacinia. Donec eget ante tristique, cursus lorem at, ullamcorper mi. Duis egestas viverra tincidunt. Integer facilisis nec ipsum a egestas. Suspendisse ac dignissim enim, nec placerat risus. In sollicitudin magna sit amet dui tincidunt porttitor. Nullam efficitur at elit id iaculis. Nam malesuada malesuada mauris. Quisque dictum eros nec scelerisque accumsan. Duis ac diam malesuada, dignissim est quis, facilisis erat.
+    </p>
+    <p>
+      Donec non lectus at urna vehicula viverra ac imperdiet ligula. Nam ornare, dolor eget bibendum consectetur, odio odio rhoncus purus, mollis dapibus odio felis sit amet metus. Nam ultricies hendrerit bibendum. Nunc egestas sem at nisl finibus pharetra varius non velit. Nam eget fringilla metus, eget finibus est. Cras non vulputate nisi. In vehicula ultricies magna non tempus.
+    </p>
+    <p>
+      Sed in dui quis ex euismod luctus. Interdum et malesuada fames ac ante ipsum primis in faucibus. Aenean rhoncus odio blandit neque lacinia commodo. Morbi fringilla odio purus, condimentum ullamcorper ligula fermentum nec. Ut a consequat ex, vel ornare elit. Phasellus luctus egestas lorem, id imperdiet eros. Duis diam magna, rhoncus id lacus at, dictum ultrices massa. In maximus aliquet felis, vitae iaculis velit egestas ac. 
+    </p>
+  </div>
 
-      <div class="col-4">
-        <h3 class="mb-3">Prochaines soutenances</h3>
-        <div class="list-group">
-          {% for soutenance in soutenances %}
-            <a href="#" class="list-group-item list-group-item-action">{{ soutenance }}</a>
-          {% endfor %}
-        </div>
-      </div>
+  <div class="col-4">
+    <h3 class="mb-3">Prochaines soutenances</h3>
+    <div class="list-group">
+      {% for soutenance in soutenances %}
+        <a href="{{ url_for('main.donation', id=soutenance) }}" class="list-group-item list-group-item-action">{{ soutenance }}</a>
+      {% endfor %}
     </div>
   </div>
 {% endblock %}

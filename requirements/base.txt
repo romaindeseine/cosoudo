@@ -3,4 +3,5 @@ flask-bcrypt
 flask-login
 flask-moment
 flask-sqlalchemy
+flask-wtf
 python-dotenv
