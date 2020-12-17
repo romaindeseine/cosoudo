@@ -1,12 +1,18 @@
+from uuid import uuid4
+
 from flask import current_app
 from flask_login import UserMixin
 
 from . import bcrypt, db, login_manager
 
 
+def get_uuid():
+    return uuid4().hex
+
+
 class Admin(UserMixin, db.Model):
     __tablename__ = 'admins'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(32), primary_key=True, default=get_uuid)
     email = db.Column(db.String(64), unique=True)
     password_hash = db.Column(db.String(64))
 
@@ -39,7 +45,7 @@ def load_user(id):
 
 class Soutenance(db.Model):
     __tablename__ = 'soutenances'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(32), primary_key=True, default=get_uuid)
     doctorant = db.Column(db.String(64))
     date = db.Column(db.Date)
     donations = db.relationship('Donation', backref='soutenance')
@@ -58,7 +64,7 @@ class Soutenance(db.Model):
 
 class Donation(db.Model):
     __tablename__ = 'donations'
-    id = db.Column(db.Integer, primary_key=True)
+    id = db.Column(db.String(32), primary_key=True, default=get_uuid)
     donateur = db.Column(db.String(64))
     don = db.Column(db.Float)
     is_settled = db.Column(db.Boolean, default=False)

@@ -43,7 +43,7 @@ def logout():
     return redirect(url_for('main.home'))
 
 
-@main.route('/donation/<id>', methods=['GET', 'POST'])
+@main.route('/soutenances/<id>/donations', methods=['GET', 'POST'])
 def donation(id):
     """
     :param id: Id de la soutenance
