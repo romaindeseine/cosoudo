@@ -25,7 +25,7 @@
         <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
           <ul class="navbar-nav me-auto">
             <li class="nav-item">
-              <a class="nav-link" href="/soutenances">Soutenances</a>
+              <a class="nav-link" href="{{ url_for('main.get_soutenances') }}">Soutenances</a>
             </li>
           </ul>
 
@@ -52,6 +52,6 @@
     <!-- MomentJS -->
     {{ moment.include_moment() }}
     {{ moment.locale('fr')}}
-  
+
   </body>
 </html>

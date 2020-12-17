@@ -37,6 +37,20 @@ def donation(id):
     ), 200
 
 
+@main.route('/soutenances', methods=['GET'])
+def get_soutenances():
+    soutenances = [soutenance.to_json() for soutenance in Soutenance.query.all()]
+    for soutenance in soutenances:
+        soutenance['cagnotte'] = 0
+        soutenance['is_settled'] = True
+        for donation in soutenance['donations']:
+            soutenance['cagnotte'] += donation['don']
+            if not donation['is_settled']:
+                soutenance['is_settled'] = False
+
+    return render_template('soutenances.html', soutenances=soutenances), 200
+
+
 @main.route('/soutenances/nouvelle', methods=['GET', 'POST'])
 def nouvelle_soutenance():
     form = SoutenanceForm()
@@ -52,4 +66,4 @@ def nouvelle_soutenance():
         )
         return redirect(url_for('main.home'))
 
-    return render_template('nouvelle_soutenance.html', form=form)
+    return render_template('nouvelle_soutenance.html', form=form), 200

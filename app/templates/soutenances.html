@@ -1,0 +1,73 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="col-12">
+    <div class="mb-4 d-flex justify-content-between align-items-center">
+      <h3>Prochaines soutenances</h3>
+      <a href="{{ url_for('main.nouvelle_soutenance') }}" class="btn btn-primary rounded-pill" role="button">Nouvelle soutenance</a>
+    </div>
+
+    <table class="table">
+      <div class="table-responsive">
+        <table class="table align-middle">
+          <thead>
+            <tr>
+              <th scope="col"></th>
+              <th scope="col">Doctorant</th>
+              <th scope="col">Date de la soutenance</th>
+              <th scope="col">Montant de la cagnotte</th>
+            </tr>
+          </thead>
+
+          <tbody>
+            {% for soutenance in soutenances %}
+              {% if soutenance.is_settled %}
+                <tr class="table-success">
+                  <th scope="row">
+                    <div class="btn-group btn-group-sm">
+                      <a href="#" class="btn btn-outline-success" role="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                          <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                        </svg>
+                      </a>
+                      <button class="btn btn-outline-success">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </th>
+                  <td>{{ soutenance.doctorant }}</td>
+                  <td>{{ moment(soutenance.date).format('LL') }}</td>
+                  <td>{{ soutenance.cagnotte }} &euro;</td>
+                </tr>
+              {% else %}
+                <tr class="table-danger">
+                  <th scope="row">
+                    <div class="btn-group btn-group-sm">
+                      <a href="#" class="btn btn-outline-danger" role="button">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M10.442 10.442a1 1 0 0 1 1.415 0l3.85 3.85a1 1 0 0 1-1.414 1.415l-3.85-3.85a1 1 0 0 1 0-1.415z"/>
+                          <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
+                        </svg>
+                      </a>
+                      <button href="#" class="btn btn-outline-danger">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
+                          <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
+                        </svg>
+                      </button>
+                    </div>
+                  </th>
+                  <td>{{ soutenance.doctorant }}</td>
+                  <td>{{ moment(soutenance.date).format('LL') }}</td>
+                  <td>{{ soutenance.cagnotte }} &euro;</td>
+                </tr>
+              {% endif %}
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+    </table>
+  </div>
+{% endblock %}
