@@ -74,7 +74,7 @@ def nouvelle_soutenance():
             ),
             category='success'
         )
-        return redirect(url_for('main.home'))
+        return redirect(url_for('main.voir_soutenances'))
 
     return render_template('nouvelle_soutenance.html', form=form), 200
 
@@ -104,7 +104,7 @@ def supprimer_soutenance(id):
         ),
         category='success'
     )
-    return redirect(url_for('main.home'))
+    return redirect(url_for('main.voir_soutenances'))
 
 
 @main.route('/soutenance/<id>/modifier', methods=['GET', 'POST'])
