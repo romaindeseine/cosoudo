@@ -131,6 +131,24 @@ def supprimer_soutenance(id):
     return redirect(url_for('main.home'))
 
 
+@main.route('/donations/<id>/supprimer', methods=['POST'])
+@login_required
+def supprimer_donation(id):
+    """
+    :param id: Id de la donation
+    """
+    donation = Donation.query.get_or_404(id)
+    db.session.delete(donation)
+    db.session.commit()
+    flash(
+        message='La donation de {} a bien été supprimée.'.format(
+            donation.donateur
+        ),
+        category='success'
+    )
+    return redirect(url_for('main.voir_soutenance', id=donation.soutenance_id))
+
+
 @main.route('/donations/<id>/modifier', methods=['GET', 'POST'])
 @login_required
 def modifier_donation(id):

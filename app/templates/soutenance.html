@@ -56,6 +56,29 @@
                   </div>
                 </td>
               </tr>
+
+              <!-- Delete modal -->
+              <div class="modal fade" id="{{ 'deleteModal-' + donation.id }}" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title">Supression</h4>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                      <p>Êtes vous sûr de vouloir supprimer la donation de {{ donation.donateur }} ?</p>
+                    </div>
+
+                    <div class="modal-footer">
+                      <button class="btn btn-light" data-bs-dismiss="modal">Non</button>
+                      <form method="POST" action="{{ url_for('main.supprimer_donation', id=donation.id) }}">
+                        <button class="btn btn-danger" type="submit">Oui</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             {% endfor %}
           </tbody>
         </table>
