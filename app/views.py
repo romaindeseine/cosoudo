@@ -43,30 +43,6 @@ def logout():
     return redirect(url_for('main.home'))
 
 
-@main.route('/soutenances/<id>/donations', methods=['GET', 'POST'])
-def donation(id):
-    """
-    :param id: Id de la soutenance
-    """
-    soutenance = Soutenance.query.get_or_404(id)
-    form = DonationForm()
-
-    if form.validate_on_submit():
-        donation = {key: form[key].data for key in ['donateur', 'don']}
-        donation['soutenance_id'] = id
-        db.session.add(Donation(**donation))
-        db.session.commit()
-        flash(
-            message='Ta participation a bien été ajoutée. La CoSouDo te remercie.',
-            category='success'
-        )
-        return redirect(url_for('main.home'))
-
-    return render_template(
-        'donation.html', form=form, doctorant=soutenance.doctorant
-    ), 200
-
-
 @main.route('/soutenances', methods=['GET'])
 @login_required
 def voir_soutenances():
@@ -129,6 +105,55 @@ def supprimer_soutenance(id):
         category='success'
     )
     return redirect(url_for('main.home'))
+
+
+@main.route('/soutenance/<id>/modifier', methods=['GET', 'POST'])
+@login_required
+def modifier_soutenance(id):
+    """
+    :param id: Id de la soutenance
+    """
+    soutenance = Soutenance.query.get_or_404(id)
+    form = SoutenanceForm()
+
+    if form.validate_on_submit():
+        flash(
+            message='La soutenance de {} a bien été modifiée.'.format(
+                soutenance.doctorant
+            ),
+            category='success'
+        )
+        return redirect(url_for('main.voir_soutenances'))
+
+    form.doctorant.data = soutenance.doctorant
+    form.date.data = soutenance.date
+    return render_template(
+        'modifier_soutenance.html', form=form, soutenance=soutenance
+    )
+
+
+@main.route('/soutenances/<id>/donations', methods=['GET', 'POST'])
+def nouvelle_donation(id):
+    """
+    :param id: Id de la soutenance
+    """
+    soutenance = Soutenance.query.get_or_404(id)
+    form = DonationForm()
+
+    if form.validate_on_submit():
+        donation = {key: form[key].data for key in ['donateur', 'don']}
+        donation['soutenance_id'] = id
+        db.session.add(Donation(**donation))
+        db.session.commit()
+        flash(
+            message='Ta participation a bien été ajoutée. La CoSouDo te remercie.',
+            category='success'
+        )
+        return redirect(url_for('main.home'))
+
+    return render_template(
+        'nouvelle_donation.html', form=form, doctorant=soutenance.doctorant
+    ), 200
 
 
 @main.route('/donations/<id>/supprimer', methods=['POST'])
