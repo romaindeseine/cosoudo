@@ -1,8 +1,9 @@
 from flask import Blueprint, flash, redirect, render_template, url_for
+from flask_login import login_required, login_user, logout_user
 
 from . import db
 from .forms import DonationForm, LoginForm, SoutenanceForm
-from .models import Donation, Soutenance
+from .models import Admin, Donation, Soutenance
 
 main = Blueprint('main', __name__)
 
@@ -13,13 +14,33 @@ def home():
     return render_template('home.html', soutenances=soutenances), 200
 
 
-@main.route('/login')
+@main.route('/login', methods=['GET', 'POST'])
 def login():
     form = LoginForm()
     if form.validate_on_submit():
-        return redirect(url_for('main.home'))
+        admin = Admin.query.filter_by(email=form.email.data).first()
+        if admin is not None and admin.verify_password(form.password.data):
+            login_user(admin)
+            flash(
+                message='Vous avez bien réussi à vous connecter au site de la CoSouDo.',
+                category='success'
+            )
+            return redirect(url_for('main.home'))
+        else:
+            flash('Mauvais email ou mot de passe.', category='danger')
 
     return render_template('login.html', form=form), 200
+
+
+@main.route('/logout')
+@login_required
+def logout():
+    logout_user()
+    flash(
+        message='Vous avez bien été déconnecté du site de la CoSouDo.',
+        category='success'
+    )
+    return redirect(url_for('main.home'))
 
 
 @main.route('/donation/<id>', methods=['GET', 'POST'])
@@ -47,7 +68,8 @@ def donation(id):
 
 
 @main.route('/soutenances', methods=['GET'])
-def get_soutenances():
+@login_required
+def voir_soutenances():
     soutenances = [soutenance.to_json() for soutenance in Soutenance.query.all()]
     for soutenance in soutenances:
         soutenance['cagnotte'] = 0
@@ -61,6 +83,7 @@ def get_soutenances():
 
 
 @main.route('/soutenances/nouvelle', methods=['GET', 'POST'])
+@login_required
 def nouvelle_soutenance():
     form = SoutenanceForm()
 
@@ -81,6 +104,7 @@ def nouvelle_soutenance():
 
 
 @main.route('/soutenance/<id>', methods=['GET'])
+@login_required
 def voir_soutenance(id):
     """
     :param id: Id de la soutenance
@@ -90,6 +114,7 @@ def voir_soutenance(id):
 
 
 @main.route('/soutenance/<id>/supprimer', methods=['POST'])
+@login_required
 def supprimer_soutenance(id):
     """
     :param id: Id de la soutenance
