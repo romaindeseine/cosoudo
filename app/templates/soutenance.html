@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="col-12">
+    <h3>Participations à la soutenance de {{ soutenance.doctorant }}</h3>
+
+    <form method="POST">
+      <table class="table mb-3">
+        <div class="table-responsive">
+          <table class="table align-middle">
+            <thead>
+              <tr>
+                <th scope="col">Participant</th>
+                <th scope="col">Don</th>
+                <th scope="col">Réglé ?</th>
+              </tr>
+            </thead>
+
+            <tbody>
+              {% for donation in soutenance.donations %}
+                <tr>
+                  <td>{{ donation.donateur }}</td>
+                  <td>{{ donation.don }} &euro;</td>
+                  <td>
+                    <div class="form-check d-flex align-items-center">
+                      <input type="checkbox" class="form-checkbox-input" value="{{ donation.is_settled }}"/>
+                    </div>
+                  </td>
+                </tr>
+              {% endfor %}
+            </tbody>
+          </table>
+        </div>
+      </table>
+    </form>
+  </div>
+{% endblock %}

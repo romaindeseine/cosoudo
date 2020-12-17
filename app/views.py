@@ -51,6 +51,15 @@ def get_soutenances():
     return render_template('soutenances.html', soutenances=soutenances), 200
 
 
+@main.route('/soutenance/<id>', methods=['GET'])
+def voir_soutenance(id):
+    """
+    :param id: Id de la soutenance
+    """
+    soutenance = Soutenance.query.get_or_404(id)
+    return render_template('soutenance.html', soutenance=soutenance.to_json()), 200
+
+
 @main.route('/soutenances/nouvelle', methods=['GET', 'POST'])
 def nouvelle_soutenance():
     form = SoutenanceForm()
