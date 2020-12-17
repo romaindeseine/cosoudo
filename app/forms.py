@@ -1,6 +1,13 @@
 from flask_wtf import FlaskForm
 
-from wtforms import DateField, DecimalField, PasswordField, StringField, SubmitField
+from wtforms import (
+    BooleanField,
+    DateField,
+    DecimalField,
+    PasswordField,
+    StringField,
+    SubmitField
+)
 from wtforms.validators import DataRequired
 
 
@@ -17,6 +24,7 @@ class SoutenanceForm(FlaskForm):
 
 
 class DonationForm(FlaskForm):
-    donateur = StringField('Votre nom et prénom', validators=[DataRequired()])
+    donateur = StringField('Nom et prénom', validators=[DataRequired()])
     don = DecimalField('Hauteur du don', validators=[DataRequired()])
+    is_settled = BooleanField('Dette réglée', default=False)
     submit = SubmitField('Submit')

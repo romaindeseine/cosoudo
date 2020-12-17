@@ -113,7 +113,7 @@ def voir_soutenance(id):
     return render_template('soutenance.html', soutenance=soutenance.to_json()), 200
 
 
-@main.route('/soutenance/<id>/supprimer', methods=['POST'])
+@main.route('/soutenances/<id>/supprimer', methods=['POST'])
 @login_required
 def supprimer_soutenance(id):
     """
@@ -129,3 +129,30 @@ def supprimer_soutenance(id):
         category='success'
     )
     return redirect(url_for('main.home'))
+
+
+@main.route('/donations/<id>/modifier', methods=['GET', 'POST'])
+@login_required
+def modifier_donation(id):
+    """
+    :param id: Id de la donation
+    """
+    donation = Donation.query.get_or_404(id)
+    form = DonationForm()
+
+    if form.validate_on_submit():
+        donation.donateur = form.donateur.data
+        donation.don = form.don.data
+        donation.is_settled = form.is_settled.data
+        db.session.add(donation)
+        db.session.commit()
+        flash(
+            message='La donation de {} a bien été modifée.'.format(donation.donateur),
+            category='success'
+        )
+        return redirect(url_for('main.voir_soutenance', id=donation.soutenance_id))
+
+    form.donateur.data = donation.donateur
+    form.don.data = donation.don
+    form.is_settled.data = donation.is_settled
+    return render_template('modifier_donation.html', form=form, donation=donation)
