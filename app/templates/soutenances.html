@@ -31,7 +31,7 @@
                           <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
                         </svg>
                       </a>
-                      <button class="btn btn-outline-success">
+                      <button class="btn btn-outline-success" data-bs-toggle="modal" data-bs-target="{{ '#deleteModal-' + soutenance.id|string }}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                           <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
                         </svg>
@@ -52,7 +52,7 @@
                           <path fill-rule="evenodd" d="M6.5 12a5.5 5.5 0 1 0 0-11 5.5 5.5 0 0 0 0 11zM13 6.5a6.5 6.5 0 1 1-13 0 6.5 6.5 0 0 1 13 0z"/>
                         </svg>
                       </a>
-                      <button href="#" class="btn btn-outline-danger">
+                      <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="{{ '#deleteModal-' + soutenance.id|string }}">
                         <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash-fill" viewBox="0 0 16 16">
                           <path fill-rule="evenodd" d="M2.5 1a1 1 0 0 0-1 1v1a1 1 0 0 0 1 1H3v9a2 2 0 0 0 2 2h6a2 2 0 0 0 2-2V4h.5a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1H10a1 1 0 0 0-1-1H7a1 1 0 0 0-1 1H2.5zm3 4a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7a.5.5 0 0 1 .5-.5zM8 5a.5.5 0 0 1 .5.5v7a.5.5 0 0 1-1 0v-7A.5.5 0 0 1 8 5zm3 .5a.5.5 0 0 0-1 0v7a.5.5 0 0 0 1 0v-7z"/>
                         </svg>
@@ -64,6 +64,29 @@
                   <td>{{ soutenance.cagnotte }} &euro;</td>
                 </tr>
               {% endif %}
+
+              <!-- Delete modal -->
+              <div class="modal fade" id="{{ 'deleteModal-' + soutenance.id|string }}" tabindex="-1">
+                <div class="modal-dialog">
+                  <div class="modal-content">
+                    <div class="modal-header">
+                      <h4 class="modal-title">Supression</h4>
+                      <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+
+                    <div class="modal-body">
+                      <p>Êtes vous sûr de vouloir supprimer la soutenance de {{ soutenance.doctorant }} ?</p>
+                    </div>
+
+                    <div class="modal-footer">
+                      <button class="btn btn-light" data-bs-dismiss="modal">Non</button>
+                      <form method="POST" action="{{ url_for('main.supprimer_soutenance', id=soutenance.id) }}">
+                        <button class="btn btn-danger" type="submit">Oui</button>
+                      </form>
+                    </div>
+                  </div>
+                </div>
+              </div>
             {% endfor %}
           </tbody>
         </table>

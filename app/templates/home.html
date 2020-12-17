@@ -33,13 +33,17 @@
 
   <div class="col-4">
     <h3 class="mb-3">Prochaines soutenances</h3>
-    <div class="list-group">
-      {% for soutenance in soutenances %}
-        <a href="{{ url_for('main.donation', id=soutenance.id) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
-          {{ soutenance.doctorant }}
-          <span class="badge bg-primary rounded-pill">{{ moment(soutenance.date).format('ll') }}</span>
-        </a>
-      {% endfor %}
-    </div>
+    {% if soutenances|length == 0 %}
+      <p class="text-center">Pas de soutenances prévues 🙁</p>
+    {% else %}
+      <div class="list-group">
+        {% for soutenance in soutenances %}
+          <a href="{{ url_for('main.donation', id=soutenance.id) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+            {{ soutenance.doctorant }}
+            <span class="badge bg-primary rounded-pill">{{ moment(soutenance.date).format('ll') }}</span>
+          </a>
+        {% endfor %}
+      </div>
+    {% endif %}
   </div>
 {% endblock %}

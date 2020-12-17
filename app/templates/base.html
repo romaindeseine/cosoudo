@@ -30,7 +30,7 @@
           </ul>
 
           <div class="d-flex">
-            <button class="btn btn-outline-light">Login</button>
+            <a href="{{ url_for('main.login') }}" class="btn btn-outline-light" type="button">Login</a>
           </div>
         </div>
       </div>
@@ -53,5 +53,14 @@
     {{ moment.include_moment() }}
     {{ moment.locale('fr')}}
 
+    <!-- Modal settings -->
+    <script>
+      var myModal = document.getElementById('myModal')
+      var myInput = document.getElementById('myInput')
+
+      myModal.addEventListener('shown.bs.modal', function () {
+        myInput.focus()
+      })
+    </script>
   </body>
 </html>

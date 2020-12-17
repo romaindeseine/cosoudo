@@ -1,7 +1,13 @@
 from flask_wtf import FlaskForm
 
-from wtforms import DateField, DecimalField, StringField, SubmitField
+from wtforms import DateField, DecimalField, PasswordField, StringField, SubmitField
 from wtforms.validators import DataRequired
+
+
+class LoginForm(FlaskForm):
+    email = StringField('Email', validators=[DataRequired()])
+    password = PasswordField('Mot de passe', validators=[DataRequired()])
+    submit = SubmitField('Submit')
 
 
 class SoutenanceForm(FlaskForm):

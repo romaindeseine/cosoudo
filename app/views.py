@@ -1,7 +1,7 @@
 from flask import Blueprint, flash, redirect, render_template, url_for
 
 from . import db
-from .forms import DonationForm, SoutenanceForm
+from .forms import DonationForm, LoginForm, SoutenanceForm
 from .models import Donation, Soutenance
 
 main = Blueprint('main', __name__)
@@ -11,6 +11,15 @@ main = Blueprint('main', __name__)
 def home():
     soutenances = Soutenance.query.all()
     return render_template('home.html', soutenances=soutenances), 200
+
+
+@main.route('/login')
+def login():
+    form = LoginForm()
+    if form.validate_on_submit():
+        return redirect(url_for('main.home'))
+
+    return render_template('login.html', form=form), 200
 
 
 @main.route('/donation/<id>', methods=['GET', 'POST'])
@@ -51,15 +60,6 @@ def get_soutenances():
     return render_template('soutenances.html', soutenances=soutenances), 200
 
 
-@main.route('/soutenance/<id>', methods=['GET'])
-def voir_soutenance(id):
-    """
-    :param id: Id de la soutenance
-    """
-    soutenance = Soutenance.query.get_or_404(id)
-    return render_template('soutenance.html', soutenance=soutenance.to_json()), 200
-
-
 @main.route('/soutenances/nouvelle', methods=['GET', 'POST'])
 def nouvelle_soutenance():
     form = SoutenanceForm()
@@ -69,10 +69,38 @@ def nouvelle_soutenance():
         db.session.add(Soutenance(**soutenance))
         db.session.commit()
         flash(
-            message='La soutenance a bien été ajoutée. '
-            'Il faut maintenant récolter les sousous.',
+            message='La soutenance de {} a bien été ajoutée. '
+            'Il faut maintenant récolter les sousous.'.format(
+                soutenance['doctorant']
+            ),
             category='success'
         )
         return redirect(url_for('main.home'))
 
     return render_template('nouvelle_soutenance.html', form=form), 200
+
+
+@main.route('/soutenance/<id>', methods=['GET'])
+def voir_soutenance(id):
+    """
+    :param id: Id de la soutenance
+    """
+    soutenance = Soutenance.query.get_or_404(id)
+    return render_template('soutenance.html', soutenance=soutenance.to_json()), 200
+
+
+@main.route('/soutenance/<id>/supprimer', methods=['POST'])
+def supprimer_soutenance(id):
+    """
+    :param id: Id de la soutenance
+    """
+    soutenance = Soutenance.query.get_or_404(id)
+    db.session.delete(soutenance)
+    db.session.commit()
+    flash(
+        message='La soutenance de {} a bien été supprimée.'.format(
+            soutenance.doctorant
+        ),
+        category='success'
+    )
+    return redirect(url_for('main.home'))
