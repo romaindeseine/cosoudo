@@ -1,3 +1,4 @@
+from flask import current_app
 from flask_login import UserMixin
 
 from . import bcrypt, db, login_manager
@@ -8,6 +9,16 @@ class Admin(UserMixin, db.Model):
     id = db.Column(db.Integer, primary_key=True)
     email = db.Column(db.String(64), unique=True)
     password_hash = db.Column(db.String(64))
+
+    @staticmethod
+    def create():
+        if not Admin.query.filter_by(email=current_app.config['ADMIN_EMAIL']).first():
+            admin = Admin(
+                email=current_app.config['ADMIN_EMAIL'],
+                password=current_app.config['ADMIN_PASSWORD']
+            )
+            db.session.add(admin)
+            db.session.commit()
 
     @property
     def password(self):
