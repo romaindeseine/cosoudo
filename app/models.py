@@ -49,13 +49,15 @@ class Soutenance(db.Model):
     doctorant = db.Column(db.String(64))
     date = db.Column(db.Date)
     donations = db.relationship('Donation', backref='soutenance')
+    cadeaux = db.relationship('Cadeau', backref='soutenance')
 
     def to_json(self):
         return {
             'id': self.id,
             'doctorant': self.doctorant,
             'date': self.date,
-            'donations': [donation.to_json() for donation in self.donations]
+            'donations': [donation.to_json() for donation in self.donations],
+            'cadeaux': [cadeau.to_json() for cadeau in self.cadeaux]
         }
 
     def __repr__(self):
@@ -68,7 +70,7 @@ class Donation(db.Model):
     donateur = db.Column(db.String(64))
     don = db.Column(db.Float)
     is_settled = db.Column(db.Boolean, default=False)
-    soutenance_id = db.Column(db.Integer, db.ForeignKey('soutenances.id'))
+    soutenance_id = db.Column(db.String(32), db.ForeignKey('soutenances.id'))
 
     def to_json(self):
         return {
@@ -80,3 +82,18 @@ class Donation(db.Model):
 
     def __repr__(self):
         return '<Donation {} - {}¢>'.format(self.donateur, self.don)
+
+
+class Cadeau(db.Model):
+    __tablename__ = 'cadeaux'
+    id = db.Column(db.String(32), primary_key=True, default=get_uuid)
+    auteur = db.Column(db.String(64))
+    idee = db.Column(db.String(128))
+    soutenance_id = db.Column(db.String(32), db.ForeignKey('soutenances.id'))
+
+    def to_json(self):
+        return {
+            'id': self.id,
+            'auteur': self.auteur,
+            'idee': self.idee
+        }

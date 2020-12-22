@@ -23,6 +23,9 @@
     <p>
       Ses membres sont actuellement Cyril Falcon (Bureau 2R21), Louise Gassot (Bureau 3A20) et Armand Riera (Bureau 3A3).
     </p>
+    <p class="text-danger">
+      Attention, on rappelle que ce site n'est qu'une plateforme pour récolter des <strong>promesses</strong> de dons et des idées de cadeaux. &Agrave; aucun moment une transaction financière vous sera demandée sur celui-ci. Il sera toujours nécessaire d'aller voir les membres de la CoSouDo pour régler vos dettes.
+    </p>
   </div>
 
   <div class="col-4">
@@ -32,7 +35,7 @@
     {% else %}
       <div class="list-group">
         {% for soutenance in soutenances %}
-          <a href="{{ url_for('main.nouvelle_donation', id=soutenance.id) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
+          <a href="{{ url_for('main.donation_ou_cadeau', id=soutenance.id) }}" class="list-group-item list-group-item-action d-flex justify-content-between align-items-center">
             {{ soutenance.doctorant }}
             <span class="badge bg-primary rounded-pill">{{ moment(soutenance.date).format('ll') }}</span>
           </a>

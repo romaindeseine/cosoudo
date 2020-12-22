@@ -28,3 +28,9 @@ class DonationForm(FlaskForm):
     don = DecimalField('Hauteur du don', validators=[DataRequired()])
     is_settled = BooleanField('Dette réglée', default=False)
     submit = SubmitField('Submit')
+
+
+class CadeauForm(FlaskForm):
+    auteur = StringField('Nom et prénom', validators=[DataRequired()])
+    idee = StringField('Idée', validators=[DataRequired()])
+    submit = SubmitField('Submit')

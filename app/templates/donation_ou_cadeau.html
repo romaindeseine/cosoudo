@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block content %}
+  <div class="col-2"></div>
+  <div class="col-4">
+    <div class="card" style="width: 20rem;">
+      <div class="card-body">
+        <img src="{{ url_for('static', filename='donation.png') }}" alt="" class="card-img-top mb-2">
+        <h4 class="card-title">Collecte de dons</h4>
+        <p class="card-text">
+          Participez au cadeau pour la soutenance de {{ soutenance.doctorant }}.
+        </p>
+        <a href="{{ url_for('main.nouvelle_donation', id=soutenance.id) }}" class="btn btn-primary">C'est par ici</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-4">
+    <div class="card" style="width: 20rem;">
+      <div class="card-body">
+        <img src="{{ url_for('static', filename='ampoule.png') }}" alt="" class="card-img-top mb-2">
+        <h4 class="card-title">Boîte à idées</h4>
+        <p class="card-text">
+          Proposez une idée de cadeau pour la soutenance de {{ soutenance.doctorant }}.
+        </p>
+        <a href="{{ url_for('main.nouveau_cadeau', id=soutenance.id) }}" class="btn btn-primary">C'est par ici</a>
+      </div>
+    </div>
+  </div>
+  <div class="col-2"></div>
+{% endblock %}

@@ -2,8 +2,8 @@ from flask import Blueprint, flash, redirect, render_template, url_for
 from flask_login import login_required, login_user, logout_user
 
 from . import db
-from .forms import DonationForm, LoginForm, SoutenanceForm
-from .models import Admin, Donation, Soutenance
+from .forms import CadeauForm, DonationForm, LoginForm, SoutenanceForm
+from .models import Admin, Cadeau, Donation, Soutenance
 
 main = Blueprint('main', __name__)
 
@@ -79,16 +79,6 @@ def nouvelle_soutenance():
     return render_template('nouvelle_soutenance.html', form=form), 200
 
 
-@main.route('/soutenance/<id>', methods=['GET'])
-@login_required
-def voir_soutenance(id):
-    """
-    :param id: Id de la soutenance
-    """
-    soutenance = Soutenance.query.get_or_404(id)
-    return render_template('soutenance.html', soutenance=soutenance.to_json()), 200
-
-
 @main.route('/soutenances/<id>/supprimer', methods=['POST'])
 @login_required
 def supprimer_soutenance(id):
@@ -132,7 +122,28 @@ def modifier_soutenance(id):
     )
 
 
-@main.route('/soutenances/<id>/donations', methods=['GET', 'POST'])
+@main.route('/soutenances/<id>/donation_ou_cadeau')
+def donation_ou_cadeau(id):
+    """
+    :param id: Id de la soutenance
+    """
+    soutenance = Soutenance.query.get_or_404(id)
+    return render_template('donation_ou_cadeau.html', soutenance=soutenance)
+
+
+@main.route('/soutenance/<id>/dons', methods=['GET'])
+@login_required
+def voir_donations_soutenance(id):
+    """
+    :param id: Id de la soutenance
+    """
+    soutenance = Soutenance.query.get_or_404(id)
+    return render_template(
+        'donations_soutenance.html', soutenance=soutenance.to_json()
+    ), 200
+
+
+@main.route('/soutenances/<id>/donations/nouvelle', methods=['GET', 'POST'])
 def nouvelle_donation(id):
     """
     :param id: Id de la soutenance
@@ -171,7 +182,9 @@ def supprimer_donation(id):
         ),
         category='success'
     )
-    return redirect(url_for('main.voir_soutenance', id=donation.soutenance_id))
+    return redirect(
+        url_for('main.voir_donations_soutenance', id=donation.soutenance_id)
+    )
 
 
 @main.route('/donations/<id>/modifier', methods=['GET', 'POST'])
@@ -193,9 +206,92 @@ def modifier_donation(id):
             message='La donation de {} a bien été modifée.'.format(donation.donateur),
             category='success'
         )
-        return redirect(url_for('main.voir_soutenance', id=donation.soutenance_id))
+        return redirect(
+            url_for('main.voir_donations_soutenance', id=donation.soutenance_id)
+        )
 
     form.donateur.data = donation.donateur
     form.don.data = donation.don
     form.is_settled.data = donation.is_settled
     return render_template('modifier_donation.html', form=form, donation=donation)
+
+
+@main.route('/soutenance/<id>/cadeaux', methods=['GET'])
+@login_required
+def voir_cadeaux_soutenance(id):
+    """
+    :param id: Id de la soutenance
+    """
+    soutenance = Soutenance.query.get_or_404(id)
+    return render_template(
+        'cadeaux_soutenance.html', soutenance=soutenance.to_json()
+    ), 200
+
+
+@main.route('/soutenances/<id>/cadeaux/nouveau', methods=['GET', 'POST'])
+def nouveau_cadeau(id):
+    """
+    :param id: Id de la soutenance
+    """
+    soutenance = Soutenance.query.get_or_404(id)
+    form = CadeauForm()
+
+    if form.validate_on_submit():
+        cadeau = {key: form[key].data for key in ['auteur', 'idee']}
+        cadeau['soutenance_id'] = id
+        db.session.add(Cadeau(**cadeau))
+        db.session.commit()
+        flash(
+            message='Ton idée de cadeau a bien été ajoutée. La CoSouDo te remercie.',
+            category='success'
+        )
+        return redirect(url_for('main.home'))
+
+    return render_template(
+        'nouveau_cadeau.html', form=form, doctorant=soutenance.doctorant
+    ), 200
+
+
+@main.route('/cadeaux/<id>/supprimer', methods=['POST'])
+@login_required
+def supprimer_cadeau(id):
+    """
+    :param id: Id du cadeau
+    """
+    cadeau = Cadeau.query.get_or_404(id)
+    db.session.delete(cadeau)
+    db.session.commit()
+    flash(
+        message="L'idée de cadeau de {} a bien été supprimée".format(
+            cadeau.auteur
+        ),
+        category='success'
+    )
+    return redirect(url_for('main.voir_cadeaux_soutenance', id=cadeau.soutenance_id))
+
+
+@main.route('/cadeaux/<id>/modifier', methods=['GET', 'POST'])
+@login_required
+def modifier_cadeau(id):
+    """
+    :param id: Id du cadeau
+    """
+    cadeau = Cadeau.query.get_or_404(id)
+    form = CadeauForm()
+
+    if form.validate_on_submit():
+        cadeau.auteur = form.auteur.data
+        cadeau.idee = form.idee.data
+        db.session.add(cadeau)
+        db.session.commit()
+        flash(
+            message="L'idée de cadeau de {} a bien été modifée.".format(cadeau.auteur),
+            category='success'
+        )
+        return redirect(
+            url_for('main.voir_cadeaux_soutenance', id=cadeau.soutenance_id)
+        )
+
+    form.auteur.data = cadeau.auteur
+    form.idee.data = cadeau.idee
+    return render_template('modifier_cadeau.html', form=form, cadeau=cadeau)
